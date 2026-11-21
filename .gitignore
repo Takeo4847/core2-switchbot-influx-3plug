@@ -24,3 +24,6 @@ compile_commands.json
 .vscode/ipch
 .DS_Store
 Thumbs.db
+
+# Local credentials
+include/secrets.h

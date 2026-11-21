@@ -21,11 +21,11 @@ struct DeviceConfig {
   const char* label;
 };
 
-// Replace Plug-2 and Plug-3 MAC addresses with the two newly added units.
+// SwitchBot Plug Mini MAC addresses monitored by this gateway.
 static const DeviceConfig DEVICE_CONFIG[] = {
-  {"84:FC:E6:B4:9D:E6", "Plug-1"},
-  {"00:00:00:00:00:00", "Plug-2"},
-  {"00:00:00:00:00:00", "Plug-3"},
+  {"F8:5B:1B:29:48:32", "Plug-1"},
+  {"AC:27:6E:40:D8:26", "Plug-2"},
+  {"AC:27:6E:41:FD:92", "Plug-3"},
 };
 
 static constexpr size_t DEVICE_COUNT = sizeof(DEVICE_CONFIG) / sizeof(DEVICE_CONFIG[0]);
@@ -514,7 +514,7 @@ static bool writeInflux(const String& batch) {
   Serial.println("InfluxDB batch:");
   Serial.print(batch);
 
-  const int code = http.POST(reinterpret_cast<const uint8_t*>(batch.c_str()), batch.length());
+  const int code = http.POST(batch);
 
   if (code == 204) {
     Serial.println("InfluxDB write OK");

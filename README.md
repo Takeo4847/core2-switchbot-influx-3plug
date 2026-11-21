@@ -1,6 +1,6 @@
 # M5Stack Core2 + 3 SwitchBot Plug Mini + InfluxDB
 
-これは M5Stack Core2 から SwitchBot Plug Mini 3台を BLE で監視し、InlfuxDB 2.x に送信するための PlatformIO プロジェクトです。
+これは M5Stack Core2 から SwitchBot Plug Mini 3台を BLE で監視し、InfluxDB 2.x に送信するための PlatformIO プロジェクトです。
 
 ## 概要
 
@@ -27,16 +27,16 @@
 
 ## 必要な準備
 
-1. `include/secrets.h` を編集して Wi-Fi と InfluxDB の接続情報を設定します。
-2. `src/main.cpp` 内の Plug-2 / Plug-3 の MAC アドレスを実際の端末に合わせて修正します。
+1. `include/secrets.example.h` を `include/secrets.h` にコピーし、Wi-Fi と InfluxDB の接続情報を設定します。
+2. `src/main.cpp` 内の3台の MAC アドレスを実際の端末に合わせて修正します。
 3. PlatformIO でビルド・アップロードを行います。
 4. シリアルモニタを 115200 baud で確認します。
 
-最初のデバイスは `84:FC:E6:B4:9D:E6` が予め設定されています。
+`include/secrets.h` は認証情報を含むため Git の追跡対象外です。実際のトークンやパスワードはコミットしないでください。
 
 ## ビルド前の注意
 
-- `include/secrets.h` には Wi-Fi SSID / パスワード、InfluxDB の URL / Token を設定してください。
+- `include/secrets.example.h` をコピーして作成した `include/secrets.h` に、Wi-Fi SSID / パスワード、InfluxDB の URL / Token を設定してください。
 - BLE で検出するデバイス数は 3 台前提です。
 - `DEVICE_CONFIG` の MAC アドレスが未設定のままだと、対象端末がスキャン対象になりません。
 
@@ -51,7 +51,8 @@
 ## プロジェクト構成
 
 - `src/main.cpp` : BLE スキャン・収集・InfluxDB 書き込みロジック
-- `include/secrets.h` : Wi-Fi / InfluxDB の秘密情報
+- `include/secrets.example.h` : Wi-Fi / InfluxDB 設定のテンプレート
+- `include/secrets.h` : ローカル専用の秘密情報（Git追跡対象外）
 - `platformio.ini` : PlatformIO の設定
 - `README.md` : 利用方法の説明
 
@@ -62,8 +63,9 @@
 ### 1. User configuration（ユーザー設定）
 - **GATEWAY_ID**: Core2 のゲートウェイ識別子（デフォルト: `Core2-1`）
 - **DEVICE_CONFIG**: 監視対象の 3 台の SwitchBot Plug Mini の MAC アドレスとラベル
-  - Plug-1 は `84:FC:E6:B4:9D:E6` で固定
-  - Plug-2 / Plug-3 は `00:00:00:00:00:00` で、実際の MAC に置き換える
+  - Plug-1: `F8:5B:1B:29:48:32`
+  - Plug-2: `AC:27:6E:40:D8:26`
+  - Plug-3: `AC:27:6E:41:FD:92`
 - **タイミング定数**:
   - `CYCLE_MS = 10000`: 1 スキャンサイクル = 10 秒
   - `BLE_SCAN_SECONDS = 4`: 各サイクルの BLE スキャン時間 = 4 秒
